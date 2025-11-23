@@ -1,0 +1,53 @@
+package com.unal.residencias; // Asegúrate que el paquete coincida con tu proyecto
+
+public class Estudiante {
+    
+    // Atributos privados para encapsulamiento
+    private String id;
+    private String nombre;
+    private int puntaje;
+
+    // Constructor vacío (útil para frameworks o inicialización posterior)
+    public Estudiante() {
+    }
+
+    // Constructor con parámetros
+    public Estudiante(String id, String nombre, int puntaje) {
+        this.id = id;
+        this.nombre = nombre;
+        this.puntaje = puntaje;
+    }
+
+    // --- Métodos Getters y Setters ---
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getPuntaje() {
+        return puntaje;
+    }
+
+    public void setPuntaje(int puntaje) {
+        this.puntaje = puntaje;
+    }
+
+    // Método opcional pero RECOMENDADO: toString()
+    // Te servirá mucho para imprimir en consola y verificar que los datos están bien
+    @Override
+    public String toString() {
+        return "Estudiante [ID=" + id + ", Nombre=" + nombre + ", Puntaje=" + puntaje + "]";
+    }
+}
