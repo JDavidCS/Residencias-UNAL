@@ -54,5 +54,44 @@ public class MinHeap{
         siftUp(heap.size() - 1);
     }
 
-    
+    public Estudiante extractMin() {
+        if (heap.isEmpty()) {
+            return null; 
+        }
+        
+        Estudiante min = heap.get(0); 
+        Estudiante lastElement = heap.remove(heap.size() - 1);
+        
+        if (!heap.isEmpty()) {
+            heap.set(0, lastElement);
+            siftDown(0);
+        }
+        
+        return min;
+    }
+
+    public boolean delete(String id){
+        int index = -1;
+
+        for (int i = 0; i < heap.size(); i++){
+            if (heap.get(i).getId().equals(id)){
+                index = i;
+                break;
+            }
+        }
+
+        if (index == -1) return false;
+
+        if (index  == heap.size() - 1){
+            heap.remove(heap.size() - 1);
+            return true;
+        }
+
+        Estudiante lastElement = heap.remove(heap.size() - 1);
+        heap.set(index, lastElement);
+
+        siftUp(index);
+        siftDown(index);
+        return true;
+    }
 }
