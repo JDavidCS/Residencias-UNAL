@@ -9,4 +9,16 @@ public class MinHeapEstudiantes {
         heap = new ArrayList<>();
     }
 
+    private int parent(int i){ 
+      return (i - 1) / 2; 
+    }
+    private int leftChild(int i){ 
+      return 2 * i + 1; 
+    }
+    private int rightChild(int i){ 
+      return 2 * i + 2; 
+    }
+
+    
+    
 }
