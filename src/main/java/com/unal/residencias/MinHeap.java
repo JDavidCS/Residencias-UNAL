@@ -1,4 +1,4 @@
-package com.unal.residencias;
+gdspackage com.unal.residencias;
 
 import java.util.ArrayList;
 
@@ -19,6 +19,6 @@ public class MinHeapEstudiantes {
       return 2 * i + 2; 
     }
 
-    
+    fdsfdscxzcfsdfxczxcd
     
 }
