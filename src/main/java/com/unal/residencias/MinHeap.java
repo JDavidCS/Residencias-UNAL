@@ -1,4 +1,4 @@
-gdspackage com.unal.residencias;
+package com.unal.residencias;
 
 import java.util.ArrayList;
 
