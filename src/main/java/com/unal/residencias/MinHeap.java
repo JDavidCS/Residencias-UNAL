@@ -94,4 +94,22 @@ public class MinHeap{
         siftDown(index);
         return true;
     }
+
+    public int size(){
+        return heap.size();
+    }
+
+    public boolean isEmpty(){ 
+        return heap.isEmpty(); 
+    }
+
+    public void imprimirHeap() {
+        System.out.print("[ ");
+        for (Estudiante i : heap) {
+            System.out.print(i.getId() + ":" + i.getPuntaje() + " ");
+        }
+        System.out.println("]");
+    }
+    
+    
 }
