@@ -7,7 +7,7 @@ Sistema de asignación de cupos para residencias universitarias basado en puntaj
 * Jesus David Correas Sierra 
 * Kevin Santiago Aldana Muñoz
 * William David Contreras Piñeros
-* OTRO
+* Sergio David Sastoque Buitrago
 * OTRO
 
 ## Tecnologías
