@@ -8,7 +8,7 @@ Sistema de asignación de cupos para residencias universitarias basado en puntaj
 * Kevin Santiago Aldana Muñoz
 * William David Contreras Piñeros
 * Sergio David Sastoque Buitrago
-* OTRO
+* Roberto Alexander Chavez Sangama
 
 ## Tecnologías
 * Lenguaje: Java 
