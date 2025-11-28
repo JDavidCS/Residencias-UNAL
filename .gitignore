@@ -14,3 +14,7 @@ nbdist/
 # OS-specific
 .DS_Store
 Thumbs.db
+
+#temporal file
+
+executeWindow.java
