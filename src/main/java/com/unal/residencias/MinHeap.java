@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class MinHeap{
     private ArrayList<Estudiante> heap;
 
-    public MinHeapEstudiantes() {
+    public void MinHeapEstudiantes() {
         heap = new ArrayList<>();
     }
 
