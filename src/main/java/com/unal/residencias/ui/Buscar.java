@@ -19,11 +19,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Insert extends JFrame{
+public class Buscar extends JFrame{
 
     JTextField inId, inNombre, inPuntaje;
 
-    public Insert(){
+    public Buscar(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Insertar");
         setMinimumSize(new Dimension(700, 400));
