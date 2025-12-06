@@ -33,15 +33,16 @@ public class PanelPrincipal extends JPanel{
         iniciar();
     }
     private void iniciar(){        
-        //----------//----------//----------//----------//----------//----------//
-        //                      PANEL IZQUIERDA
+        //------//------//------//------//------//------//
+        // ------//------ PANEL IZQUIERDA ------//------//
+        //------//------//------//------//------//------//
         JPanel left = new JPanel();
         left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
         left.setBackground(new Color(180, 180, 180));
         left.setBorder(BorderFactory.createEmptyBorder(10, 10, 10,10));
         left.setPreferredSize(new Dimension(350, left.getPreferredSize().height));
 
-        //                      Panel Estudiante
+        // ------//------//------ Panel Estudiante ------//------//------//------//
         JPanel pEst = new JPanel();
         pEst.setMaximumSize(new Dimension(left.getPreferredSize().width, 100));
         pEst.setLayout(new GridBagLayout());
@@ -49,21 +50,24 @@ public class PanelPrincipal extends JPanel{
         GridBagConstraints gc = new GridBagConstraints();
         gc.weightx = 1; gc.weighty = 0;
         gc.insets = new Insets(10, 10, 10, 10);
-        // titulo "estudiantes"
+
+        // titulo "estudiantes" ------//------//------//------//------//
         JLabel tEstudiante = new JLabel("Estudiantes");
         tEstudiante.setFont(new Font("Sans-serif", Font.BOLD, 20));
         gc.gridx = 0; gc.gridy = 0;
         gc.gridwidth = 3;
         gc.gridheight = 2;
         pEst.add(tEstudiante, gc);
-        // numero estudiantes
+
+        // numero estudiantes ------//------//------//------//------//
         nEstudiantes = new JLabel("10");
         nEstudiantes.setFont(new Font("Sans-serif", Font.BOLD, 20));
         gc.gridx = 3; gc.gridy = 0;
         gc.gridwidth = 1;
         gc.gridheight = 2;
         pEst.add(nEstudiantes, gc);
-        // botón Buscar
+
+        // botón Buscar ------//------//------//------//------//------//
         gc.fill = GridBagConstraints.HORIZONTAL;
         JButton buscar = new JButton("Buscar");
         buscar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -71,7 +75,8 @@ public class PanelPrincipal extends JPanel{
         gc.gridwidth = 2;
         gc.gridheight = 1;
         pEst.add(buscar, gc);
-        // Boton Registrar
+
+        // Boton Registrar ------//------//------//------//------//
         JButton regis = new JButton("registrar");
         regis.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         gc.gridx = 2; gc.gridy = 2;
@@ -83,7 +88,9 @@ public class PanelPrincipal extends JPanel{
         left.add(pEst);
 
         left.add(Box.createRigidArea(new Dimension(0, 15)));
-        //                      Boton Listar elementos
+
+
+        // ------//------//------ Boton Listar elementos ------//------//------//------//
         JButton listar = new JButton("Listar estudiantes");
         listar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         listar.setMaximumSize(new Dimension(left.getPreferredSize().width, listar.getPreferredSize().height));
@@ -115,8 +122,10 @@ public class PanelPrincipal extends JPanel{
         this.add(left, BorderLayout.WEST);
 
 
-        //----------//----------//----------//----------//----------//----------//
-        //                      PANEL DERECHO
+        //------//------//------//------//------//------//
+        //------//------   PANEL DERECHO  ------//------//
+        //------//------//------//------//------//------//
+        
         right = new JPanel();
         right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
         right.setBorder(BorderFactory.createEmptyBorder(30, 0, 10, 0));
