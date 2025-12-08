@@ -17,6 +17,7 @@ public class HashTable {
     private int size;
     private double loadFactor = 0.75;
 
+    @SuppressWarnings("unchecked")
     public HashTable(int initialCapacity) {
         table = new LinkedList[initialCapacity];
         size = 0;
@@ -81,6 +82,7 @@ public class HashTable {
         return size;
     }
 
+    @SuppressWarnings("unchecked")
     private void rehash() {
         LinkedList<Entry>[] oldTable = table;
         table = new LinkedList[oldTable.length * 2];
