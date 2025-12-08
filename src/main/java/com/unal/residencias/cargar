@@ -1,0 +1,33 @@
+import java.io.FileReader;
+
+public class CargarDatos {
+
+    public static void main(String[] args) {
+        try {
+            JsonObject json = JsonParser.parseReader(new FileReader("estudiantes_prueba.json")).getAsJsonObject();
+            JsonArray estudiantes = json.getAsJsonArray("estudiantes");
+
+            HashTable tabla = new HashTable(10);
+            MinHeap heap = new MinHeap();
+
+            for (JsonElement e : estudiantes) {
+                JsonObject obj = e.getAsJsonObject();
+                String id = obj.get("id").getAsString();
+                String nombre = obj.get("nombre").getAsString();
+                int puntaje = obj.get("puntaje").getAsInt();
+
+                Estudiante est = new Estudiante(id, nombre, puntaje);
+
+                tabla.put(id, est);
+                heap.insertar(est);
+            }
+
+            heap.imprimirHeap();
+
+            System.out.println(tabla.get("E003"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
