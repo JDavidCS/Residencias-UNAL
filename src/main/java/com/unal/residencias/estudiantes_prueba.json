@@ -1,0 +1,93 @@
+{
+  "estudiantes": [
+    {
+      "id": "001",
+      "nombre": "Juan Pérez",
+      "puntaje": 85
+    },
+    {
+      "id": "002",
+      "nombre": "María Gómez",
+      "puntaje": 192
+    },
+    {
+      "id": "003",
+      "nombre": "Carlos Rodríguez",
+      "puntaje": 170
+    },
+    {
+      "id": "004",
+      "nombre": "Ana Martínez",
+      "puntaje": 95
+    },
+    {
+      "id": "005",
+      "nombre": "Luis Fernández",
+      "puntaje": 60
+    },
+    {
+      "id": "006",
+      "nombre": "Sofía Ramírez",
+      "puntaje": 38
+    },
+    {
+      "id": "007",
+      "nombre": "Andrés Torres",
+      "puntaje": 175
+    },
+    {
+      "id": "008",
+      "nombre": "Valentina Castro",
+      "puntaje": 98
+    },
+    {
+      "id": "009",
+      "nombre": "Miguel Sánchez",
+      "puntaje": 55
+    },
+    {
+      "id": "010",
+      "nombre": "Laura Herrera",
+      "puntaje": 180
+    },
+    {
+      "id": "011",
+      "nombre": "Laura Herrera",
+      "puntaje": 180
+    },
+    {
+      "id": "012",
+      "nombre": "Laura Herrera",
+      "puntaje": 180
+    },
+    {
+      "id": "013",
+      "nombre": "Laura Herrera",
+      "puntaje": 180
+    },
+    {
+      "id": "014",
+      "nombre": "Laura Herrera",
+      "puntaje": 180
+    },
+    {
+      "id": "015",
+      "nombre": "Laura Herrera",
+      "puntaje": 180
+    },
+    {
+      "id": "016",
+      "nombre": "Laura Herrera",
+      "puntaje": 180
+    },
+    {
+      "id": "017",
+      "nombre": "Laura Herrera",
+      "puntaje": 180
+    },
+    {
+      "id": "018",
+      "nombre": "Laura Herrera",
+      "puntaje": 180
+    }
+  ]
