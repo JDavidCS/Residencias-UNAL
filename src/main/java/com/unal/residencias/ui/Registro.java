@@ -20,9 +20,9 @@ public class Registro extends JFrame{
 
     JTextField inId, inNombre, inPuntaje;
     public Registro(){
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setTitle("Registrar");
-        setMinimumSize(new Dimension(700, 400));
+        setMinimumSize(new Dimension(700, 390));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         ((JComponent) this.getContentPane()).setBorder(BorderFactory.createEmptyBorder(20,10, 50, 10));

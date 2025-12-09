@@ -19,9 +19,9 @@ public class Lista extends JFrame{
         this.info = info;
         this.title = title;
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setTitle(title);
-        setMinimumSize(new Dimension(700, 400));
+        setMinimumSize(new Dimension(700, 390));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
 

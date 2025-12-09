@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -22,11 +24,11 @@ import javax.swing.JTextField;
 public class Buscar extends JFrame{
 
     JTextField inId, inNombre, inPuntaje;
-
+    JButton edit, delete;
     public Buscar(){
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Insertar");
-        setMinimumSize(new Dimension(700, 400));
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setTitle("Buscar");
+        setMinimumSize(new Dimension(700, 390));
         this.setLocationRelativeTo(null);
 
         iniciar();
@@ -153,16 +155,30 @@ public class Buscar extends JFrame{
         buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
 
         // botones  ------//------//------//------//------//------//
-        JButton edit = new JButton("editar");
+        edit = new JButton("Editar");
         edit.setMaximumSize(new Dimension(1000, 30));
         buttons.add(edit);
-        JButton delete = new JButton("Borrar");
+
+        buttons.add(Box.createRigidArea(new Dimension(0, 15)));
+
+        delete = new JButton("Borrar");
         delete.setMaximumSize(new Dimension(1000, 30));
         buttons.add(delete);
 
         right.add(buttons);
 
         this.add(right, BorderLayout.CENTER);
+
+        addListeners();
+    }
+
+    private void addListeners(){
+        edit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // editData();
+            }
+        });
     }
     
 }
