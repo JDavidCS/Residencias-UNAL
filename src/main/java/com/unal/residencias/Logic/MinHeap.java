@@ -107,10 +107,15 @@ public class MinHeap{
         return heap.isEmpty(); 
     }
 
-    public MinHeap copiar(){
+    public MinHeap copiar() {
         MinHeap copia = new MinHeap();
-        for (Estudiante est : heap){
-            copia.heap.add(est);
+        for (Estudiante est : heap) {
+            Estudiante copiaEst = new Estudiante(
+                est.getId(), 
+                est.getNombre(), 
+                est.getPuntaje()
+            );
+            copia.heap.add(copiaEst);
         }
         return copia;
     }
