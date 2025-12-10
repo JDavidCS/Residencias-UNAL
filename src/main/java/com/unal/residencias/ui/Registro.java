@@ -17,13 +17,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.unal.residencias.Logic.SistemaResidencias;
 
 // Pantalla para registrar.
 public class Registro extends JFrame{
 
+    private SistemaResidencias sistema;
     JTextField inId, inNombre, inPuntaje;
     JButton regisBt;
-    public Registro(){
+    
+    public Registro(SistemaResidencias sistema){
+        this.sistema = sistema;
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setTitle("Registrar");
         setMinimumSize(new Dimension(700, 390));
@@ -33,6 +37,8 @@ public class Registro extends JFrame{
 
         iniciar();
     }
+
+
     public void iniciar(){
         JLabel titulo = new JLabel("Registrar");
         titulo.setFont(new Font("Sans-serif", Font.BOLD, 40));
@@ -97,30 +103,54 @@ public class Registro extends JFrame{
 
         addListeners();
     }
+    
     private void addListeners(){
-        regisBt.addActionListener((ActionListener) new ActionListener() {
+        regisBt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 insertData();
             }
         });
     }
+    
     private void insertData(){
-        int id, puntaje;
+        String idStr;
+        int puntaje;
         String nombre;
         try {
             if (inId.getText().isBlank() || inNombre.getText().isBlank() || inPuntaje.getText().isBlank())
-                throw new Exception();
-            id = Integer.parseInt(inId.getText());
+                throw new Exception("Campos vacíos");
+            
+            idStr = inId.getText().trim(); 
+            nombre = inNombre.getText().trim();
             puntaje = Integer.parseInt(inPuntaje.getText());
-            if (id <= 0)
-                throw new Exception();
+            
+            if (puntaje <= 0)
+                throw new Exception("El puntaje debe ser un entero positivo.");
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,"Error: El puntaje debe ser un número entero válido.");
+            return;
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "Error, Campos invalidos");
+            JOptionPane.showMessageDialog(this,"Error: " + e.getMessage());
             return;
         }
-        System.out.println("inserting data");
+        
+        // Llama al sistema
+        boolean registrado = sistema.registrarEstudiante(idStr, nombre, puntaje);
+        
+        if (registrado) {
+            JOptionPane.showMessageDialog(this, "Estudiante " + nombre + " registrado con éxito.");
+            limpiarFormulario();
+            this.dispose(); 
+        } else {
+            JOptionPane.showMessageDialog(this, "Error: El ID " + idStr + " ya se encuentra registrado.");
+        }
     }
-
+    
+    private void limpiarFormulario() {
+        inId.setText("");
+        inNombre.setText("");
+        inPuntaje.setText("");
+    }
 }

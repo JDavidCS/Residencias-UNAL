@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 public class Lista extends JFrame{
     //pantalla para mostrar listas
@@ -42,11 +43,27 @@ public class Lista extends JFrame{
         };
 
         JTable t = new JTable(model);
+        
+        // Configurar encabezado de la tabla
+        JTableHeader header = t.getTableHeader();
+        header.setFont(new Font("Sans-serif", Font.BOLD, 14));
+        
+        // Configurar altura de filas
+        t.setRowHeight(25);
+        t.setFont(new Font("Sans-serif", Font.PLAIN, 12));
+        
+        // Configurar ancho de columnas
+        t.getColumnModel().getColumn(0).setPreferredWidth(150);
+        t.getColumnModel().getColumn(1).setPreferredWidth(250);
+        t.getColumnModel().getColumn(2).setPreferredWidth(150);
+        
+        // Desactivar reordenamiento de columnas
+        t.getTableHeader().setReorderingAllowed(false);
+        
         JScrollPane scroll = new JScrollPane(t);
-        // t.setFillsViewportHeight(true);
-
+        t.setFillsViewportHeight(true);
 
         this.add(titulo, BorderLayout.NORTH);
-        this.add(scroll,BorderLayout.CENTER);
+        this.add(scroll, BorderLayout.CENTER);
     }
 }

@@ -28,7 +28,8 @@ public class MinHeap{
     }    
 
     private void siftUp(int i) {
-        while (i > 0 && heap.get(parent(i)).getPuntaje() > heap.get(i).getPuntaje()) {
+        // Uso de compareTo para determinar la prioridad (menor puntaje = > 0)
+        while (i > 0 && heap.get(parent(i)).compareTo(heap.get(i)) > 0) {
             swap(i, parent(i));
             i = parent(i);
         }
@@ -38,16 +39,18 @@ public class MinHeap{
         int min = i;
 
         int left = leftChild(i);
-        if (left < heap.size() && heap.get(left).getPuntaje() < heap.get(min).getPuntaje()){
+        // Uso de compareTo para la comparación
+        if (left < heap.size() && heap.get(left).compareTo(heap.get(min)) < 0) {
             min = left;
         }
         
         int right = rightChild(i);
-        if (right < heap.size() && heap.get(right).getPuntaje() < heap.get(min).getPuntaje()){
+        // Uso de compareTo para la comparación
+        if (right < heap.size() && heap.get(right).compareTo(heap.get(min)) < 0) {
             min = right;
         }
-        
-        if (min != i){
+
+        if (min != i) {
             swap(i, min);
             siftDown(min);
         }
@@ -118,5 +121,9 @@ public class MinHeap{
             copia.heap.add(copiaEst);
         }
         return copia;
+    }
+    
+    public ArrayList<Estudiante> getAll() {
+        return new ArrayList<>(heap);
     }
 }

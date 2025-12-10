@@ -1,16 +1,29 @@
 package com.unal.residencias.Logic;
 
 import java.util.ArrayList;
+import java.util.Collections; // Para ordenar la lista de estudiantes
 
 public class SistemaResidencias {
     private HashTable tablaEstudiantes;
     private MinHeap heapPermanente;
-    
+    private int cuposDisponibles;
+
     public SistemaResidencias(int capacidadInicial) {
         tablaEstudiantes = new HashTable(capacidadInicial);
         heapPermanente = new MinHeap();
+        this.cuposDisponibles = 0;
+    }
+
+    // Requisito: Permitir ingresar cuántos son los cupos disponibles.
+    public void establecerCupos(int cupos) {
+        this.cuposDisponibles = cupos;
     }
     
+    public int getCuposDisponibles() {
+        return cuposDisponibles;
+    }
+    
+    // Requisito: Registrar estudiantes
     public boolean registrarEstudiante(String id, String nombre, int puntaje) {
         if (tablaEstudiantes.containsKey(id)) {
             return false;
@@ -22,23 +35,29 @@ public class SistemaResidencias {
         return true;
     }
     
+    // Requisito: Acceder directamente a los datos mediante el ID único
     public Estudiante consultarEstudiante(String id) {
         return tablaEstudiantes.get(id);
     }
     
+    // Requisito: Permitir modificar el puntaje de un estudiante y que el sistema actualice su posición.
     public boolean modificarPuntaje(String id, int nuevoPuntaje) {
         Estudiante est = tablaEstudiantes.get(id);
         if (est == null) {
             return false;
         }
         
-        heapPermanente.delete(id);
+        // 1. Eliminar del Heap
+        heapPermanente.delete(id); 
+        // 2. Modificar el puntaje del objeto
         est.setPuntaje(nuevoPuntaje);
+        // 3. Reinsertar en el Heap para actualizar su posición
         heapPermanente.insertar(est);
         
         return true;
     }
     
+    // Requisito: Eliminar estudiantes del sistema.
     public boolean eliminarEstudiante(String id) {
         Estudiante est = tablaEstudiantes.get(id);
         if (est == null) {
@@ -46,65 +65,84 @@ public class SistemaResidencias {
         }
         
         tablaEstudiantes.remove(id);
-        heapPermanente.delete(id);
+        heapPermanente.delete(id); 
         return true;
     }
     
-    public ArrayList<Estudiante> listarEstudiantesPorPuntaje() {
-        ArrayList<Estudiante> lista = new ArrayList<>();
-        MinHeap copiaTemp = heapPermanente.copiar();
-        
-        while (!copiaTemp.isEmpty()) {
-            lista.add(copiaTemp.extractMin());
+    /**
+     * Requisito: Asignar cupos disponibles comenzando por los estudiantes con menor puntaje.
+     * Modifica el estado de asignación de los estudiantes.
+     */
+    public void asignarCupos() {
+        // 1. Reiniciar el estado de asignación de todos
+        ArrayList<Estudiante> todos = obtenerListaTotal();
+        for (Estudiante e : todos) {
+            e.setResidenciaAsignada(false);
         }
+        
+        // 2. Usar una copia del Heap para la asignación
+        MinHeap copiaAsignacion = heapPermanente.copiar();
+        
+        int cupos = this.cuposDisponibles;
+        
+        // 3. Extraer a los N estudiantes más prioritarios y marcar su estado
+        for (int i = 0; i < cupos && !copiaAsignacion.isEmpty(); i++) {
+            Estudiante prioritarioCopia = copiaAsignacion.extractMin();
+            if (prioritarioCopia == null) continue;
+
+            // Obtener el objeto real desde la tabla usando el ID
+            Estudiante original = tablaEstudiantes.get(prioritarioCopia.getId());
+            if (original != null) {
+                original.setResidenciaAsignada(true);
+            }
+        }
+    }
+    
+    /** Obtiene todos los estudiantes registrados (a partir del Heap, ya que no hay getAllValues en HashTable) */
+    public ArrayList<Estudiante> obtenerListaTotal() {
+        // Se asume que MinHeap.getAll() retorna todos los elementos.
+        return heapPermanente.getAll(); 
+    }
+    
+    /**
+     * Requisito: Listar estudiantes en orden creciente por puntaje socioeconómico.
+     */
+    public ArrayList<Estudiante> obtenerListaOrdenadaPorPuntaje() {
+        ArrayList<Estudiante> lista = obtenerListaTotal(); 
+        
+        // Usa la implementación de compareTo de Estudiante (orden creciente)
+        Collections.sort(lista);
         
         return lista;
     }
     
-    public ResultadoAsignacion asignarCupos(int cuposDisponibles) {
-        if (cuposDisponibles <= 0) {
-            return null;
+    // Requisito: Listar estudiantes que obtuvieron residencia.
+    public ArrayList<Estudiante> listarAsignados() {
+        ArrayList<Estudiante> asignados = new ArrayList<>();
+        ArrayList<Estudiante> todos = obtenerListaTotal();
+        
+        for (Estudiante e : todos) {
+            if (e.isResidenciaAsignada()) {
+                asignados.add(e);
+            }
         }
-        
-        if (cuposDisponibles > tablaEstudiantes.size()) {
-            cuposDisponibles = tablaEstudiantes.size();
-        }
-        
-        ArrayList<Estudiante> aceptados = new ArrayList<>();
-        ArrayList<Estudiante> noAceptados = new ArrayList<>();
-        
-        MinHeap copiaAsignacion = heapPermanente.copiar();
-        
-        for (int i = 0; i < cuposDisponibles && !copiaAsignacion.isEmpty(); i++) {
-            aceptados.add(copiaAsignacion.extractMin());
-        }
-        
-        while (!copiaAsignacion.isEmpty()) {
-            noAceptados.add(copiaAsignacion.extractMin());
-        }
-        
-        return new ResultadoAsignacion(aceptados, noAceptados);
+        return asignados;
     }
     
+    // Requisito: Listar estudiantes que no obtuvieron residencia.
+    public ArrayList<Estudiante> listarNoAsignados() {
+        ArrayList<Estudiante> noAsignados = new ArrayList<>();
+        ArrayList<Estudiante> todos = obtenerListaTotal();
+        
+        for (Estudiante e : todos) {
+            if (!e.isResidenciaAsignada()) {
+                noAsignados.add(e);
+            }
+        }
+        return noAsignados;
+    }
+
     public int getTotalEstudiantes() {
         return tablaEstudiantes.size();
-    }
-    
-    public static class ResultadoAsignacion {
-        private ArrayList<Estudiante> aceptados;
-        private ArrayList<Estudiante> noAceptados;
-        
-        public ResultadoAsignacion(ArrayList<Estudiante> aceptados, ArrayList<Estudiante> noAceptados) {
-            this.aceptados = aceptados;
-            this.noAceptados = noAceptados;
-        }
-        
-        public ArrayList<Estudiante> getAceptados() {
-            return aceptados;
-        }
-        
-        public ArrayList<Estudiante> getNoAceptados() {
-            return noAceptados;
-        }
     }
 }

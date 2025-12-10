@@ -22,12 +22,21 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.unal.residencias.Logic.SistemaResidencias;
+import com.unal.residencias.Logic.Estudiante;
+
 public class Buscar extends JFrame{
 
+    private SistemaResidencias sistema;
+    private String estudianteActualId;
+    
     JTextField inId, inNombre, inPuntaje, buscaCod;
     JButton edit, delete, buscar;
     private boolean form;
-    public Buscar(){
+    
+    public Buscar(SistemaResidencias sistema){
+        this.sistema = sistema;
+        this.estudianteActualId = null;
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setTitle("Buscar");
         setMinimumSize(new Dimension(700, 390));
@@ -35,6 +44,7 @@ public class Buscar extends JFrame{
 
         iniciar();
     }
+    
     private void iniciar(){
         //-----//-----//-----//-----//-----//-----//-----//-----//
         //-----//-----//--- PANTALLA INSERTAR ----//-----//-----//
@@ -118,9 +128,8 @@ public class Buscar extends JFrame{
         inId.setFont(new Font("Sans-serif", Font.PLAIN, 24));
         inId.setBackground(new Color(230, 230, 230));
         inId.setEditable(false);
-        
-        inId.setText("484379349");
         right.add(inId);
+        
         // Titulo nombre ------//------//------//------//------//------//
         JLabel infoNombre = new JLabel("Nombre");
         infoNombre.setFont(new Font("Sans-serif", Font.BOLD, 20));
@@ -132,8 +141,6 @@ public class Buscar extends JFrame{
         inNombre.setFont(new Font("Sans-serif", Font.PLAIN, 24));
         inNombre.setBackground(new Color(230, 230, 230));
         inNombre.setEditable(false);
-
-        inNombre.setText("Tulio Triviño");
         right.add(inNombre);
 
         // Titulo Puntaje ------//------//------//------//------//------//
@@ -147,8 +154,6 @@ public class Buscar extends JFrame{
         inPuntaje.setFont(new Font("Sans-serif", Font.PLAIN, 24));
         inPuntaje.setBackground(new Color(230, 230, 230));
         inPuntaje.setEditable(false);
-
-        inPuntaje.setText("130");
         right.add(inPuntaje);
 
         right.add(Box.createRigidArea(new Dimension(0, 30)));
@@ -159,12 +164,14 @@ public class Buscar extends JFrame{
         // botones  ------//------//------//------//------//------//
         edit = new JButton("Editar");
         edit.setMaximumSize(new Dimension(1000, 30));
+        edit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         buttons.add(edit);
 
         buttons.add(Box.createRigidArea(new Dimension(0, 15)));
 
         delete = new JButton("Borrar");
         delete.setMaximumSize(new Dimension(1000, 30));
+        delete.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         buttons.add(delete);
 
         right.add(buttons);
@@ -202,37 +209,96 @@ public class Buscar extends JFrame{
     }
 
     private void editData(){
+        if (estudianteActualId == null) {
+            JOptionPane.showMessageDialog(this, "Primero debes buscar un estudiante.");
+            return;
+        }
+        
         if(form){
             // si el formulario está habilitado y se da en editar otra vez, se actualiza la información
-
-            //código para editar...
-
-            editable(false);
-            form = false;
+            try {
+                int nuevoPuntaje = Integer.parseInt(inPuntaje.getText());
+                if (nuevoPuntaje <= 0) {
+                    throw new Exception();
+                }
+                
+                boolean actualizado = sistema.modificarPuntaje(estudianteActualId, nuevoPuntaje);
+                if (actualizado) {
+                    JOptionPane.showMessageDialog(this, "Estudiante actualizado correctamente.");
+                    editable(false);
+                    form = false;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al actualizar el estudiante.");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error: el puntaje debe ser un entero positivo.");
+            }
         }
         else{
             // habilitar los campos para edición
             editable(true);
             form = true;
+            edit.setText("Guardar");
         }
     }
 
     private void deleteData(){
-        System.out.println("delete data");
-    }
-    private void searchData(){
-        int id;
-        try {
-            if (buscaCod.getText().isBlank())
-                throw new Exception();
-            id = Integer.parseInt(buscaCod.getText());
-            if (id <= 0)
-                throw new Exception();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Error, La cantidad de cupos debe ser un entero positivo diferente de 0");
+        if (estudianteActualId == null) {
+            JOptionPane.showMessageDialog(this, "Primero debes buscar un estudiante.");
             return;
         }
-        System.out.println("searching data");
-
+        
+        int confirmacion = JOptionPane.showConfirmDialog(this, 
+            "¿Estás seguro de que deseas eliminar este estudiante?", 
+            "Confirmar eliminación", 
+            JOptionPane.YES_NO_OPTION);
+        
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            boolean eliminado = sistema.eliminarEstudiante(estudianteActualId);
+            if (eliminado) {
+                JOptionPane.showMessageDialog(this, "Estudiante eliminado correctamente.");
+                limpiarFormulario();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al eliminar el estudiante.");
+            }
+        }
+    }
+    
+    private void searchData(){
+        String id;
+        try {
+            if (buscaCod.getText().isBlank()) {
+                throw new Exception();
+            }
+            id = buscaCod.getText().trim();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error, debes ingresar un ID válido.");
+            return;
+        }
+        
+        Estudiante est = sistema.consultarEstudiante(id);
+        if (est != null) {
+            estudianteActualId = id;
+            inId.setText(est.getId());
+            inNombre.setText(est.getNombre());
+            inPuntaje.setText(String.valueOf(est.getPuntaje()));
+            editable(false);
+            form = false;
+            edit.setText("Editar");
+        } else {
+            JOptionPane.showMessageDialog(this, "Estudiante no encontrado.");
+            limpiarFormulario();
+        }
+    }
+    
+    private void limpiarFormulario() {
+        estudianteActualId = null;
+        inId.setText("");
+        inNombre.setText("");
+        inPuntaje.setText("");
+        editable(false);
+        form = false;
+        edit.setText("Editar");
+        buscaCod.setText("");
     }
 }

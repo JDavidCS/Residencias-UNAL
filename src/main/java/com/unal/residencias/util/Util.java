@@ -1,6 +1,6 @@
 package com.unal.residencias.util;
 
-public class Utils {
+public class Util {
 
     public static boolean esEntero(String s) {
         if (s == null) return false;
