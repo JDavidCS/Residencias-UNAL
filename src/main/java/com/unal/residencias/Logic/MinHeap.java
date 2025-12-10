@@ -1,22 +1,24 @@
-package com.unal.residencias;
+package com.unal.residencias.Logic;
 
 import java.util.ArrayList;
 
 public class MinHeap{
     private ArrayList<Estudiante> heap;
 
-    public void MinHeapEstudiantes() {
+    public MinHeap(){
         heap = new ArrayList<>();
     }
 
     private int parent(int i){ 
-      return (i - 1) / 2; 
+        return (i - 1) / 2; 
     }
+    
     private int leftChild(int i){ 
-      return 2 * i + 1; 
+        return 2 * i + 1; 
     }
+    
     private int rightChild(int i){ 
-      return 2 * i + 2; 
+        return 2 * i + 2; 
     }
     
     private void swap(int i, int j) {
@@ -39,10 +41,12 @@ public class MinHeap{
         if (left < heap.size() && heap.get(left).getPuntaje() < heap.get(min).getPuntaje()){
             min = left;
         }
+        
         int right = rightChild(i);
         if (right < heap.size() && heap.get(right).getPuntaje() < heap.get(min).getPuntaje()){
             min = right;
         }
+        
         if (min != i){
             swap(i, min);
             siftDown(min);
@@ -82,7 +86,7 @@ public class MinHeap{
 
         if (index == -1) return false;
 
-        if (index  == heap.size() - 1){
+        if (index == heap.size() - 1){
             heap.remove(heap.size() - 1);
             return true;
         }
@@ -103,13 +107,16 @@ public class MinHeap{
         return heap.isEmpty(); 
     }
 
-    public void imprimirHeap() {
-        System.out.print("[ ");
-        for (Estudiante i : heap) {
-            System.out.print(i.getId() + ":" + i.getPuntaje() + " ");
+    public MinHeap copiar() {
+        MinHeap copia = new MinHeap();
+        for (Estudiante est : heap) {
+            Estudiante copiaEst = new Estudiante(
+                est.getId(), 
+                est.getNombre(), 
+                est.getPuntaje()
+            );
+            copia.heap.add(copiaEst);
         }
-        System.out.println("]");
+        return copia;
     }
-    
-    
 }

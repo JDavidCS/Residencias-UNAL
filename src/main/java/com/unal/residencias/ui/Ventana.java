@@ -9,5 +9,9 @@ public class Ventana extends JFrame{
         this.setTitle(nombre);
         setMinimumSize(new Dimension(700, 400));
         this.setLocationRelativeTo(null);
+
+        PanelPrincipal p = new PanelPrincipal();
+
+        this.add(p);
     }
 }

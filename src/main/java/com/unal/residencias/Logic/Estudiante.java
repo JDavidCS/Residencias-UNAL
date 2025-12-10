@@ -1,4 +1,4 @@
-package com.unal.residencias; 
+package com.unal.residencias.Logic; 
 
 public class Estudiante {
     

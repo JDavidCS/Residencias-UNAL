@@ -17,6 +17,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -25,23 +26,24 @@ public class PanelPrincipal extends JPanel{
     JLabel nEstudiantes;
     private JLabel infoProgram;
     private JLabel parametros;
-    private JButton listarAsig;
-    private JButton listarRe;
+    private JButton listarAsig, listarRe, buscar, regis, listar, run;
+    private JTextField inputCupos;
 
     public PanelPrincipal(){
         this.setLayout(new BorderLayout());
         iniciar();
     }
     private void iniciar(){        
-        //----------//----------//----------//----------//----------//----------//
-        //                      PANEL IZQUIERDA
+        //------//------//------//------//------//------//
+        // ------//------ PANEL IZQUIERDA ------//------//
+        //------//------//------//------//------//------//
         JPanel left = new JPanel();
         left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
         left.setBackground(new Color(180, 180, 180));
         left.setBorder(BorderFactory.createEmptyBorder(10, 10, 10,10));
         left.setPreferredSize(new Dimension(350, left.getPreferredSize().height));
 
-        //                      Panel Estudiante
+        // ------//------//------ Panel Estudiante ------//------//------//------//
         JPanel pEst = new JPanel();
         pEst.setMaximumSize(new Dimension(left.getPreferredSize().width, 100));
         pEst.setLayout(new GridBagLayout());
@@ -49,30 +51,34 @@ public class PanelPrincipal extends JPanel{
         GridBagConstraints gc = new GridBagConstraints();
         gc.weightx = 1; gc.weighty = 0;
         gc.insets = new Insets(10, 10, 10, 10);
-        // titulo "estudiantes"
+
+        // titulo "estudiantes" ------//------//------//------//------//
         JLabel tEstudiante = new JLabel("Estudiantes");
         tEstudiante.setFont(new Font("Sans-serif", Font.BOLD, 20));
         gc.gridx = 0; gc.gridy = 0;
         gc.gridwidth = 3;
         gc.gridheight = 2;
         pEst.add(tEstudiante, gc);
-        // numero estudiantes
+
+        // numero estudiantes ------//------//------//------//------//
         nEstudiantes = new JLabel("10");
         nEstudiantes.setFont(new Font("Sans-serif", Font.BOLD, 20));
         gc.gridx = 3; gc.gridy = 0;
         gc.gridwidth = 1;
         gc.gridheight = 2;
         pEst.add(nEstudiantes, gc);
-        // botón Buscar
+
+        // botón Buscar ------//------//------//------//------//------//
         gc.fill = GridBagConstraints.HORIZONTAL;
-        JButton buscar = new JButton("Buscar");
+        buscar = new JButton("Buscar");
         buscar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         gc.gridx = 0; gc.gridy = 2;
         gc.gridwidth = 2;
         gc.gridheight = 1;
         pEst.add(buscar, gc);
-        // Boton Registrar
-        JButton regis = new JButton("registrar");
+
+        // Boton Registrar ------//------//------//------//------//
+        regis = new JButton("registrar");
         regis.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         gc.gridx = 2; gc.gridy = 2;
         gc.gridwidth = 2;
@@ -83,8 +89,10 @@ public class PanelPrincipal extends JPanel{
         left.add(pEst);
 
         left.add(Box.createRigidArea(new Dimension(0, 15)));
-        //                      Boton Listar elementos
-        JButton listar = new JButton("Listar estudiantes");
+
+
+        // ------//------//------ Boton Listar elementos ------//------//------//------//
+        listar = new JButton("Listar estudiantes");
         listar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         listar.setMaximumSize(new Dimension(left.getPreferredSize().width, listar.getPreferredSize().height));
         listar.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -103,7 +111,7 @@ public class PanelPrincipal extends JPanel{
         tCupos.setAlignmentX(Component.CENTER_ALIGNMENT);
         pCupos.add(tCupos);
 
-        JTextField inputCupos = new JTextField();
+        inputCupos = new JTextField();
         inputCupos.setMaximumSize(new Dimension((left.getPreferredSize().width*3/5), inputCupos.getPreferredSize().height*2));
         inputCupos.setAlignmentX(Component.CENTER_ALIGNMENT);
         inputCupos.setHorizontalAlignment(JTextField.CENTER);
@@ -115,26 +123,21 @@ public class PanelPrincipal extends JPanel{
         this.add(left, BorderLayout.WEST);
 
 
-        //----------//----------//----------//----------//----------//----------//
-        //                      PANEL DERECHO
+        //------//------//------//------//------//------//
+        //------//------   PANEL DERECHO  ------//------//
+        //------//------//------//------//------//------//
+        
         right = new JPanel();
         right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
         right.setBorder(BorderFactory.createEmptyBorder(30, 0, 10, 0));
 
         
-        JButton run = new JButton("Asignar Cupos");
+        run = new JButton("Asignar Cupos");
         run.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         run.setFont(new Font("Sans-serif", Font.BOLD, 28));
         run.setAlignmentX(Component.CENTER_ALIGNMENT);
         right.add(run);
-        run.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setInformation(100, 40);
-            }
-            
-        });
+        
 
         // información una vez se ejecute el programa.
         right.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -167,9 +170,192 @@ public class PanelPrincipal extends JPanel{
 
 
         this.add(right, BorderLayout.CENTER);
+
+        addListeners();
+    }
+
+    private void addListeners(){
+        // Asignar Cupos
+        run.addActionListener(new ActionListener() {
+            // !!!!!!!!!!!!!!!!!!!!Pasar Parametros usados !!!!!!!!!!!!!!!!!!!!!!
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // setInformation(100, 40);
+                executeProgram();
+            }
+
+        });
+
+        // Abrir buscador
+        buscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Buscar v = new Buscar();
+                v.setVisible(true);
+            }
+        });
+
+        regis.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Registro v = new Registro();
+                v.setVisible(true);
+            }
+        });
+
+        // Listar todos los estudiantes
+        listar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //!!!!!!!!!!!!!!!!!!!!!Obtener todos los estudiantes!!!!!!!!!!!!!!!!!!!!!!!!
+
+                Object[][] list = { { 32390, "Samantha", 342 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 }
+
+                };
+
+                Lista v = new Lista("Lista Estudiantes", list);
+                v.setVisible(true);
+            }
+        });
+
+        listarAsig.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                // !!!!!!!!!!!! Obtener lista de los estudiantes asignados
+
+                Object[][] list = { { 32390, "Samantha", 342 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 }
+
+                };
+
+                Lista v = new Lista("Lista Asignados", list);
+                v.setVisible(true);
+            }
+        });
+
+        listarRe.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                // !!!!!!!!!!!! Obtener lista de los estudiantes asignados !!!!!!!!!!!!
+
+                Object[][] list = { { 32390, "Samantha", 342 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 },
+                        { 49388924, "Daniel", 432 }
+
+                };
+
+                Lista v = new Lista("Lista NO admitidos", list);
+                v.setVisible(true);
+            }
+        });
+    }
+
+    public void executeProgram(){
+
+        // ACÁ SE EJECUTA TODO EL PROGRAMA PARA ASIGNAR CUPOS
+
+        // obtenemos el número de cupos y verificamos que no hayan errores.
+        int cupos;
+        try {
+            if(inputCupos.getText().isBlank()) throw new Exception();
+            cupos = Integer.parseInt(inputCupos.getText());
+            if(cupos <= 0) throw new Exception();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error, La cantidad de cupos debe ser un entero positivo diferente de 0");
+            return;
+        }
+        // si el número es valido, sigue el programa (si el número es decimal, se redondea)
+
+        // INCLUIR LÓGICA DEL PROGRAMA
+
+        
+        // mostrar información en pantalla.
+        setInformation(100, cupos);
     }
 
     public void setInformation(int estudiantes, int cupos){
+        // una vez se corre el programa, se muestran los parámetros y los botones para obtener los resultados.
         infoProgram.setVisible(true);
         parametros.setText(estudiantes+" estudiantes - "+cupos+" residencias");
         parametros.setVisible(true);
