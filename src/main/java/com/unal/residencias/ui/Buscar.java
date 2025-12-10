@@ -18,13 +18,15 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class Buscar extends JFrame{
 
-    JTextField inId, inNombre, inPuntaje;
-    JButton edit, delete;
+    JTextField inId, inNombre, inPuntaje, buscaCod;
+    JButton edit, delete, buscar;
+    private boolean form;
     public Buscar(){
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setTitle("Buscar");
@@ -71,7 +73,7 @@ public class Buscar extends JFrame{
         pEst.add(subtitle, gc);
 
         // input Código ------//------//------//------//------//
-        JTextField buscaCod = new JTextField();
+        buscaCod = new JTextField();
         buscaCod.setMaximumSize(new Dimension(left.getPreferredSize().width, buscaCod.getPreferredSize().height));
         buscaCod.setAlignmentX(Component.CENTER_ALIGNMENT);
         buscaCod.setHorizontalAlignment(JTextField.CENTER);
@@ -85,7 +87,7 @@ public class Buscar extends JFrame{
 
         // botón Buscar ------//------//------//------//------//------//
         gc.fill = GridBagConstraints.HORIZONTAL;
-        JButton buscar = new JButton("Buscar");
+        buscar = new JButton("Buscar");
         buscar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         gc.gridx = 0;
         gc.gridy = 3;
@@ -111,7 +113,7 @@ public class Buscar extends JFrame{
         infoId.setFont(new Font("Sans-serif", Font.BOLD, 20));
         right.add(infoId);
         // campo id ------//------//------//------//------//------//
-        JTextField inId = new JTextField();
+        inId = new JTextField();
         inId.setMaximumSize(new Dimension(1000, 30));
         inId.setFont(new Font("Sans-serif", Font.PLAIN, 24));
         inId.setBackground(new Color(230, 230, 230));
@@ -125,7 +127,7 @@ public class Buscar extends JFrame{
         right.add(infoNombre);
 
         // campo nombre ------//------//------//------//------//------//
-        JTextField inNombre = new JTextField();
+        inNombre = new JTextField();
         inNombre.setMaximumSize(new Dimension(1000, 30));
         inNombre.setFont(new Font("Sans-serif", Font.PLAIN, 24));
         inNombre.setBackground(new Color(230, 230, 230));
@@ -140,7 +142,7 @@ public class Buscar extends JFrame{
         right.add(infoPuntaje);
 
         // campo Puntaje ------//------//------//------//------//------//
-        JTextField inPuntaje = new JTextField();
+        inPuntaje = new JTextField();
         inPuntaje.setMaximumSize(new Dimension(1000, 30));
         inPuntaje.setFont(new Font("Sans-serif", Font.PLAIN, 24));
         inPuntaje.setBackground(new Color(230, 230, 230));
@@ -176,9 +178,61 @@ public class Buscar extends JFrame{
         edit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // editData();
+                editData();
             }
         });
+        delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteData();
+            }
+        });
+        buscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchData();
+            }
+        });
+        
     }
     
+    private void editable(boolean state){
+        inNombre.setEditable(state);
+        inPuntaje.setEditable(state);
+    }
+
+    private void editData(){
+        if(form){
+            // si el formulario está habilitado y se da en editar otra vez, se actualiza la información
+
+            //código para editar...
+
+            editable(false);
+            form = false;
+        }
+        else{
+            // habilitar los campos para edición
+            editable(true);
+            form = true;
+        }
+    }
+
+    private void deleteData(){
+        System.out.println("delete data");
+    }
+    private void searchData(){
+        int id;
+        try {
+            if (buscaCod.getText().isBlank())
+                throw new Exception();
+            id = Integer.parseInt(buscaCod.getText());
+            if (id <= 0)
+                throw new Exception();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error, La cantidad de cupos debe ser un entero positivo diferente de 0");
+            return;
+        }
+        System.out.println("searching data");
+
+    }
 }
