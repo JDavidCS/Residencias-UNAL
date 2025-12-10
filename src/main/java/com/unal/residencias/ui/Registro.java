@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -11,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -19,10 +22,11 @@ import javax.swing.JTextField;
 public class Registro extends JFrame{
 
     JTextField inId, inNombre, inPuntaje;
+    JButton regisBt;
     public Registro(){
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setTitle("Registrar");
-        setMinimumSize(new Dimension(700, 400));
+        setMinimumSize(new Dimension(700, 390));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         ((JComponent) this.getContentPane()).setBorder(BorderFactory.createEmptyBorder(20,10, 50, 10));
@@ -88,8 +92,35 @@ public class Registro extends JFrame{
         this.add(center, BorderLayout.CENTER);
 
         // Boton registrar ------//------//------//------//------//------//
-        JButton regisBt = new JButton("Registrar");
+        regisBt = new JButton("Registrar");
         this.add(regisBt, BorderLayout.SOUTH);
 
+        addListeners();
     }
+    private void addListeners(){
+        regisBt.addActionListener((ActionListener) new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                insertData();
+            }
+        });
+    }
+    private void insertData(){
+        int id, puntaje;
+        String nombre;
+        try {
+            if (inId.getText().isBlank() || inNombre.getText().isBlank() || inPuntaje.getText().isBlank())
+                throw new Exception();
+            id = Integer.parseInt(inId.getText());
+            puntaje = Integer.parseInt(inPuntaje.getText());
+            if (id <= 0)
+                throw new Exception();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error, Campos invalidos");
+            return;
+        }
+        System.out.println("inserting data");
+    }
+
 }
